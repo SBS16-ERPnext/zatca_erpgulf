@@ -1598,6 +1598,13 @@ def zatca_background_on_submit(doc, _method=None, bypass_background_check=False)
             # frappe.msgprint("Zatca Invoice is not enabled. Submitting the document.")
             return  # Exit the function without further checks
 
+        # Check if auto-submit is disabled and this is not a manual button click
+        # If bypass_background_check is True, it means it's a manual button click or scheduled job
+        if not company_doc.get("sbs_custom_auto_submit_to_zatca") and not bypass_background_check:
+            # Auto-submit is disabled, skip ZATCA submission on invoice submit
+            # User must use the 'Send invoice to ZATCA' button
+            return
+
         # 🚨 Skip ZATCA logic if Company Tax ID = Customer Tax ID
         if company_doc.tax_id and customer_doc.tax_id:
             if company_doc.tax_id.strip() == customer_doc.tax_id.strip():
