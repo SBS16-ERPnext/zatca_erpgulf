@@ -17,7 +17,7 @@ from . import __version__ as app_version
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/zatca_erpgulf/css/zatca_erpgulf.css"
-# app_include_js = "/assets/zatca_erpgulf/js/zatca_erpgulf.js"
+# app_include_js = "/assets/zatca_erpgulf/js/zatca_utils.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/zatca_erpgulf/css/zatca_erpgulf.css"
@@ -256,6 +256,9 @@ doc_events = {
         "after_insert": "zatca_erpgulf.zatca_erpgulf.validations.duplicating_invoice",
         "on_submit": "zatca_erpgulf.zatca_erpgulf.pos_sign.zatca_background_on_submit",
     },
+    "SConfigs": {
+        "on_update": "zatca_erpgulf.zatca_erpgulf.workspace_utils.apply_zatca_workspace_visibility",
+    },
 }
 # doc_events = {
 #     "Sales Invoice": {
@@ -281,6 +284,10 @@ doctype_js = {
     ],
     "Company": "public/js/company.js",
     "POS Invoice": ["public/js/our_pos_invoice.js", "public/js/badge_pos.js"],
+    "Purchase Invoice": "public/js/purchase_invoice.js",
+    "Cost Center": "public/js/cost_center.js",
+    "Item Tax Template": "public/js/item_tax_template.js",
+    "Customer": "public/js/customer.js",
 }
 
 doctype_list_js = {
@@ -337,4 +344,5 @@ fixtures = [
 ]
 
 app_include_css = "/assets/zatca_erpgulf/css/tooltip.css"
-app_include_js = "/assets/zatca_erpgulf/js/tooltip.js"
+app_include_js = ["/assets/zatca_erpgulf/js/tooltip.js",
+                  "/assets/zatca_erpgulf/js/zatca_utils.js"]

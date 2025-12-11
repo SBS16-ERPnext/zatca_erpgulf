@@ -83,7 +83,7 @@ frappe.realtime.on('show_gif', (data) => {
 // });
 frappe.ui.form.on("Company", {
     refresh(frm) {
-        // Refresh logic if any
+        update_zatca_visibility_flag(frm);
     },
     custom_generate_production_csids: function (frm) {
 
@@ -176,3 +176,19 @@ frappe.ui.form.on("Company", {
 
     }
 });
+
+function update_zatca_visibility_flag(frm) {
+    sbs.get_sconfig_boolean("ShowZATCAFields", false).then(function(response) {
+        const show_zatca = response.message["ShowZATCAFields"];
+        const value = show_zatca ? 1 : 0;
+        
+        if (frm.doc.show_zatca_fields !== value) {
+            frm.doc.show_zatca_fields = value;
+            frm.layout.refresh_dependency();
+        }
+        frm.set_df_property('custom_zatca_setting', 'hidden', show_zatca ? 0 : 1);
+        setTimeout(() => {
+            frm.refresh_fields();
+        }, 100);        
+    });
+}
